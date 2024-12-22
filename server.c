@@ -6,7 +6,7 @@
 /*   By: aharder <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:22:13 by aharder           #+#    #+#             */
-/*   Updated: 2024/12/22 15:38:19 by aharder          ###   ########.fr       */
+/*   Updated: 2024/12/22 17:20:25 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 void	printmessage(int signal)
 {
 	static int	current_bit = 0;
-	int	bits_received[MAX_BITS];
-	char	c;
-	int	i;
+	static int	bits_received[MAX_BITS];
+	char		c;
+	int			i;
 
 	if (current_bit < MAX_BITS)
 	{
@@ -52,5 +52,5 @@ int	main(void)
 		signal(SIGUSR1, printmessage);
 		signal(SIGUSR2, printmessage);
 		pause();
-	}	
+	}
 }
