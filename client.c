@@ -6,61 +6,48 @@
 /*   By: aharder <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:30:02 by aharder           #+#    #+#             */
-/*   Updated: 2024/12/21 17:57:59 by aharder          ###   ########.fr       */
+/*   Updated: 2024/12/22 12:59:36 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
 #include "libft.h"
+#include <signal.h>
 
-int	char_to_bin(char c)
+int	char_to_bin(int pid, char c)
 {
-	char	*bin;
 	int	i;
-	int	size;
-	int	output;
 
-	bin = ft_itoa(c, 2);
-	size = ft_strlen(bin);
 	i = 0;
-	while (i < size)
+	while (i < 8)
 	{
-		output = bin[i] - 48;
-		if (output == 1)
-			printf("1");
-		else if (output == 0)
-			printf("0");
+		if (c & (1 << (7 - i)))
+			kill(pid, SIGUSR2);
+		else
+			kill(pid, SIGUSR1);
 		i++;
+		usleep(100);
 	}
-	output = ft_atoi(bin);
-	free(bin);
-	printf("\n");
-	return (output);
+	return (i);
 }
 
 int	main(int argc, char *argv[])
 {
 	int	pid;
-	int	*binstr;
 	int	i;
 
 	if (argc < 2)
 	{
-		printf("Mauvaise utilisation");
+		ft_printf("Mauvaise utilisation");
 		return (0);
 	}
 	pid = ft_atoi(argv[1]);
-	binstr = malloc(ft_strlen(argv[2]) * sizeof(int));
 	i = 0;
 	while (argv[2][i] != '\0')
 	{
-		binstr[i] = char_to_bin(argv[2][i]);
+		char_to_bin(pid, argv[2][i]);
 		i++;
 	}
-	i = 0;/*
-	while (argv[2][i] != '\0')
-	{
-		printf("%i\n", binstr[i]);
-		i++;
-	}*/
+	i = 0;
 	return (0);
 }
