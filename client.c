@@ -48,6 +48,7 @@ int	main(int argc, char *argv[])
 		char_to_bin(pid, argv[2][i]);
 		i++;
 	}
+	char_to_bin(pid, '\0');
 	i = 0;
 	return (0);
 }

@@ -16,12 +16,49 @@
 
 #define MAX_BITS 8
 
+int	is_null(int *bits_received)
+{
+	int	i;
+	
+	i = 0;
+	while (i < MAX_BITS)
+	{
+		if (bits_received[i] == 1);
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+char	compress_bits(int *bits_received)
+{
+	int	i;
+	
+	i = 0;
+	while (i < MAX_BITS)
+	{
+		c = (c << 1) | bits_received[i];
+		i++;
+	}
+	return (c);
+}
+
+char	*join_char(char *message, c)
+{	
+	int	i;
+	
+	i = ft_strlen(message);
+	message = ft_realloc(message, i * sizeof(char));
+	message[i] = c;
+	return (message);
+}
+
 void	printmessage(int signal)
 {
 	static int	current_bit = 0;
 	static int	bits_received[MAX_BITS];
+	static char	*str;
 	char		c;
-	int			i;
 
 	if (current_bit < MAX_BITS)
 	{
@@ -33,13 +70,16 @@ void	printmessage(int signal)
 	}
 	if (current_bit == MAX_BITS)
 	{
-		i = 0;
-		while (i < MAX_BITS)
+		if (is_null(bits_received))
 		{
-			c = (c << 1) | bits_received[i];
-			i++;
+			ft_printf("%s", str);
+			
 		}
-		ft_printf("%c", c);
+		else
+		{
+			c = compress_bits(bits_received);
+			str = join_char(str, c);
+		]
 		current_bit = 0;
 	}
 }
