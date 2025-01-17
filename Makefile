@@ -1,8 +1,8 @@
 CC= cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 SRCS= client.c server.c
 OBJS= $(SRCS:.c=.o)
-LIBS= libft.a libftprintf.a
+LIBS= libftprintf.a
 all: server client
 client:
 	$(CC) $(CFLAGS) -c client.c -o client.o
