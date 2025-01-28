@@ -1,54 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aharder <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/21 16:30:02 by aharder           #+#    #+#             */
-/*   Updated: 2025/01/28 16:46:41 by aharder          ###   ########.fr       */
+/*   Created: 2024/11/04 16:12:43 by aharder           #+#    #+#             */
+/*   Updated: 2024/11/04 16:12:59 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
 #include "libft.h"
-#include <signal.h>
 
-int	char_to_bin(int pid, char c)
+int	getargcount(const char *str)
 {
 	int	i;
+	int	count;
 
+	count = 0;
 	i = 0;
-	while (i < 8)
+	while (str[i] != '\0')
 	{
-		if (c & (1 << (7 - i)))
-			kill(pid, SIGUSR2);
-		else
-			kill(pid, SIGUSR1);
+		if (str[i] == '%')
+		{
+			count++;
+			i++;
+		}
 		i++;
-		usleep(10);
 	}
-	return (i);
+	return (count);
 }
 
-int	main(int argc, char *argv[])
+int	findlength(unsigned int n)
 {
-	int	pid;
-	int	i;
+	int	length;
 
-	if (argc < 2)
+	length = 0;
+	if (n == 0)
+		return (1);
+	while (n > 0)
 	{
-		ft_printf("Mauvaise utilisation");
-		return (0);
+		n /= 10;
+		length++;
 	}
-	pid = ft_atoi(argv[1]);
-	i = 0;
-	while (argv[2][i] != '\0')
-	{
-		char_to_bin(pid, argv[2][i]);
-		i++;
-	}
-	char_to_bin(pid, '\0');
-	i = 0;
-	return (0);
+	return (length);
 }

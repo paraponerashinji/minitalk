@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 16:28:46 by aharder           #+#    #+#             */
-/*   Updated: 2025/01/28 16:28:49 by aharder          ###   ########.fr       */
+/*   Created: 2019/10/07 11:03:52 by rchallie          #+#    #+#             */
+/*   Updated: 2019/10/21 16:09:56 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ char		ft_tolower(char str);
 char		ft_toupper(char str);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
-void		*ft_realloc(void *ptr, int old_size, int new_size);
 
 /*
 	printf

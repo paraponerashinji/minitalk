@@ -1,54 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aharder <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/21 16:30:02 by aharder           #+#    #+#             */
-/*   Updated: 2025/01/28 16:46:41 by aharder          ###   ########.fr       */
+/*   Created: 2024/10/22 12:28:06 by aharder           #+#    #+#             */
+/*   Updated: 2024/11/04 11:20:00 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
 #include "libft.h"
-#include <signal.h>
 
-int	char_to_bin(int pid, char c)
+int	customstrlen(const char *str)
 {
 	int	i;
 
 	i = 0;
-	while (i < 8)
+	while (str[i] != '\0')
 	{
-		if (c & (1 << (7 - i)))
-			kill(pid, SIGUSR2);
-		else
-			kill(pid, SIGUSR1);
 		i++;
-		usleep(10);
 	}
 	return (i);
 }
 
-int	main(int argc, char *argv[])
+int	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	int	pid;
-	int	i;
+	size_t		i;
+	int			len;
 
-	if (argc < 2)
-	{
-		ft_printf("Mauvaise utilisation");
-		return (0);
-	}
-	pid = ft_atoi(argv[1]);
 	i = 0;
-	while (argv[2][i] != '\0')
+	len = customstrlen(src);
+	if (size == 0)
+		return (len);
+	while (src[i] != '\0' && i < size - 1)
 	{
-		char_to_bin(pid, argv[2][i]);
+		dest[i] = src[i];
 		i++;
 	}
-	char_to_bin(pid, '\0');
-	i = 0;
-	return (0);
+	dest[i] = '\0';
+	return (len);
 }

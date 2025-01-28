@@ -6,62 +6,32 @@
 /*   By: aharder <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:22:13 by aharder           #+#    #+#             */
-/*   Updated: 2024/12/22 17:20:25 by aharder          ###   ########.fr       */
+/*   Updated: 2025/01/28 16:47:19 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-//#include "libft.h"
+#include "libft.h"
 #include <signal.h>
-#include <stdlib.h>
+
 #define MAX_BITS 8
 
-size_t ft_strlen2(const char *str) {
-    size_t length = 0;
-    // Parcours de la chaîne de caractères jusqu'à atteindre le caractère nul '\0'
-    while (str[length] != '\0') {
-        length++;
-    }
-    return length;
-}
-
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+int	custom_strlen(const char *str)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (i < n)
+	while (str[i] != 0 || str[i] != '\0')
 	{
-		*(unsigned char *)(dst + i) = *(unsigned char *)(src + i);
 		i++;
 	}
-	return (dst);
-}
-
-void	*ft_realloc(void *ptr, int old_size, int new_size)
-{
-    void	*new_ptr;
-
-    if (new_size == 0)
-    {
-        free(ptr);
-        return (NULL);
-    }
-    if (ptr == NULL)
-        return (malloc(new_size));
-    new_ptr = malloc(new_size);
-    if (new_ptr && ptr)
-    {
-        ft_memcpy(new_ptr, ptr, old_size);
-        free(ptr);
-    }
-    return (new_ptr);
+	return (i);
 }
 
 int	is_null(int *bits_received)
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < MAX_BITS)
 	{
@@ -74,7 +44,7 @@ int	is_null(int *bits_received)
 
 char	compress_bits(int *bits_received)
 {
-	int	i;
+	int		i;
 	char	c;
 
 	i = 0;
@@ -87,17 +57,29 @@ char	compress_bits(int *bits_received)
 }
 
 char	*join_char(char *message, char c)
-{	
-    int	i;
-   
-    if (message != NULL)
-    	i = ft_strlen2(message);
-    else
-	    i = 0;
-    message = ft_realloc(message, i * sizeof(char), (i + 2) * sizeof(char)); // +2 for new char and '\0'
-    message[i] = c;
-    message[i + 1] = '\0';
-    return (message);
+{
+	int	i;
+	int	j;
+	int	k;
+
+	if (message != NULL)
+	{
+		i = ft_strlen(message);
+		k = custom_strlen(message);
+	}
+	else
+	{
+		i = 0;
+		k = 0;
+	}
+	j = i;
+	if (j == 0)
+		j = 1;
+	if (k >= i - 1)
+		message = ft_realloc(message, i * sizeof(char), (j * 2) * sizeof(char));
+	message[i] = c;
+	message[i + 1] = '\0';
+	return (message);
 }
 
 void	printmessage(int signal)
@@ -105,15 +87,13 @@ void	printmessage(int signal)
 	static int	current_bit = 0;
 	static int	bits_received[MAX_BITS];
 	static char	*str = NULL;
-	char		c;
 
 	if (current_bit < MAX_BITS)
 	{
 		if (signal == SIGUSR1)
-			bits_received[current_bit] = 0;
+			bits_received[current_bit++] = 0;
 		else if (signal == SIGUSR2)
-			bits_received[current_bit] = 1;
-		current_bit++;
+			bits_received[current_bit++] = 1;
 	}
 	if (current_bit == MAX_BITS)
 	{
@@ -124,10 +104,7 @@ void	printmessage(int signal)
 			str = NULL;
 		}
 		else
-		{
-			c = compress_bits(bits_received);
-			str = join_char(str, c);
-		}
+			str = join_char(str, compress_bits(bits_received));
 		current_bit = 0;
 	}
 }
