@@ -26,7 +26,7 @@ int	char_to_bin(int pid, char c)
 		else
 			kill(pid, SIGUSR1);
 		i++;
-		usleep(10);
+		usleep(100);
 	}
 	return (i);
 }

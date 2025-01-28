@@ -1,6 +1,6 @@
 CC= cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS= client.c server.c
+SRCS= client.c server.c server_utilities.c
 OBJS= $(SRCS:.c=.o)
 LIBFTDIR = libft
 LIBFT = $(LIBFTDIR)/libft.a
@@ -11,7 +11,8 @@ client:
 	$(CC) $(CFLAGS) -o client client.o $(LIBFT)
 server:
 	$(CC) $(CFLAGS) -c server.c -o server.o
-	$(CC) $(CFLAGS) -o server server.o $(LIBFT)
+	$(CC) $(CFLAGS) -c server_utilities.c -o server_utilities.o
+	$(CC) $(CFLAGS) -o server server.o server_utilities.o $(LIBFT)
 %.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 $(LIBFT):

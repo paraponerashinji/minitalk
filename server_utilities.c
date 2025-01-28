@@ -1,33 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*   server_utilities.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aharder <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 13:05:45 by aharder           #+#    #+#             */
-/*   Updated: 2025/01/28 13:06:18 by aharder          ###   ########.fr       */
+/*   Created: 2025/01/28 18:17:19 by aharder           #+#    #+#             */
+/*   Updated: 2025/01/28 18:17:57 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "server.h"
 
-void	*ft_realloc(void *ptr, int old_size, int new_size)
+int	custom_strlen(const char *str)
 {
-	void	*new_ptr;
+	int	i;
 
-	if (new_size == 0)
+	i = 0;
+	while (str[i] != 0 && str[i] != '\0')
 	{
-		free(ptr);
-		return (NULL);
+		i++;
 	}
-	if (ptr == NULL)
-		return (malloc(new_size));
-	new_ptr = malloc(new_size);
-	if (new_ptr)
+	return (i);
+}
+
+int	is_null(int *bits_received)
+{
+	int	i;
+
+	i = 0;
+	while (i < MAX_BITS)
 	{
-		ft_memcpy(new_ptr, ptr, old_size);
-		free(ptr);
+		if (bits_received[i] == 1)
+			return (0);
+		i++;
 	}
-	return (new_ptr);
+	return (1);
+}
+
+char	compress_bits(int *bits_received)
+{
+	int		i;
+	char	c;
+
+	i = 0;
+	while (i < MAX_BITS)
+	{
+		c = (c << 1) | bits_received[i];
+		i++;
+	}
+	return (c);
 }
