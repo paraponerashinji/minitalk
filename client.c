@@ -41,6 +41,8 @@ int	main(int argc, char *argv[])
 		return (0);
 	}
 	pid = ft_atoi(argv[1]);
+	if (pid <= 0)
+		return (0);
 	i = 0;
 	while (argv[2][i] != '\0')
 	{
