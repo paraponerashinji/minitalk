@@ -35,7 +35,7 @@ int	main(int argc, char *argv[])
 	int	pid;
 	int	i;
 
-	if (argc < 2)
+	if (argc != 3)
 	{
 		ft_printf("Mauvaise utilisation");
 		return (0);
