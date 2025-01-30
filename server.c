@@ -46,7 +46,8 @@ void	sigintfree(char *str)
 
 void	printandfree(char *str)
 {
-	ft_printf("%s", str);
+	if (str != NULL)
+		ft_printf("%s", str);
 	free(str);
 	g_k = 0;
 }
